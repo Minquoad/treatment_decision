@@ -3,22 +3,23 @@ THE FOLLOWING CODE IS FOR READ ONLY"""
 
 import random
 
+
 class Trial:
-    """ This class simulate a trial result based on 
-    """
-    def __init__(self, group_size, untreated_survival, treated_survival):
+    """ This class simulate a trial result based on  """
+
+    def __init__(self, group_size: int, untreated_survival: float, treated_survival: float):
         self._control_group_survivors = 0
         self._control_group_deaths = 0
         self._experimental_group_survivors = 0
         self._experimental_group_deaths = 0
 
-        for _ in range(group_size):# result for the control group (treated with placebo)
+        for _ in range(group_size):  # result for the control group (treated with placebo)
             if random.uniform(0, 1) <= untreated_survival:
                 self._control_group_survivors += 1
             else:
                 self._control_group_deaths += 1
 
-        for _ in range(group_size):# result for the experimental group (treated)
+        for _ in range(group_size):  # result for the experimental group (treated)
             if random.uniform(0, 1) <= treated_survival:
                 self._experimental_group_survivors += 1
             else:
@@ -36,15 +37,26 @@ class Trial:
 
     @property
     def experimental_group_survivors(self):
-        """ the number of patients who died in the untreated group """
+        """ the number of patients who survived in the treated group """
         return self._experimental_group_survivors
 
     @property
     def experimental_group_deaths(self):
-        """ the number of patients who died in the untreated group """
+        """ the number of patients who died in the treated group """
         return self._experimental_group_deaths
 
     @property
     def group_size(self):
-        """ using the experimental group would also have done the job """
+        """ computes the groupe size
+        using the experimental group would also have done the job """
         return self._control_group_survivors + self._control_group_deaths
+
+    @property
+    def treatment_survival(self):
+        """ computes the survival rate in the treated group """
+        return self.experimental_group_survivors / self.group_size
+
+    @property
+    def disease_survival(self):
+        """ computes the survival rate in the untreated group """
+        return self.control_group_survivors / self.group_size
