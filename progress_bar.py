@@ -3,9 +3,9 @@ from time import time
 
 
 class ProgressBar:
-    def __init__(self, label=None, size=24, wall="", blank="░", fill="█"):
-        self._size = size
+    def __init__(self, label: str = None, size=24, wall="", blank="░", fill="█"):
         self._label = label
+        self._size = size
         self._wall = wall
         self._fill = fill
         self._blank = blank
@@ -32,9 +32,12 @@ class ProgressBar:
             print(string, end="")
 
     def end(self, end="\n"):
-        execution_time = time() - self._t0
-        rounded_time = round(execution_time, 3 - int(math.floor(math.log10(execution_time))) - 1)
+        duration = time() - self._t0
+        if duration == 0.0:
+            rounded_time = 0.0
+        else:
+            rounded_time = round(duration, 3 - int(math.floor(math.log10(duration))) - 1)
         string = "\r"
-        string += self._label if self._label is not None else "loading time"
+        string += self._label if self._label is not None else "loading"
         string += ": " + str(rounded_time) + " s"
         print(string, end=end)
